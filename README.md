@@ -1,2 +1,3 @@
 # Conversor
-currency converter, temperature and weight
+Converter: currencies, temperature and weight
+by Sharon Vieira
