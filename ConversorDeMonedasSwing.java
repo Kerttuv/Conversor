@@ -1,98 +1,145 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
+import javax.swing.JOptionPane;
 
-public class ConversorDeMonedasSwing extends JFrame {
-    private JLabel labelResultado;
-    private JTextField campoCantidad;
-    private JButton botonConvertir;
-    private JComboBox<String> comboMonedas;
-    private double tasaUSDToEUR;
-    private double tasaUSDToCOP;
-    private double tasaUSDToCLP;
-    private double tasaUSDToMXN;
-    private double tasaUSDToBRL;
-    private double tasaUSDToBOB;
-    private double tasaUSDToVEF;
+public class ConversorDeMonedasSwing {
+    public static void main(String[] args) {
+        boolean continuar = true;
 
-    public ConversorDeMonedasSwing() {
-        tasaUSDToEUR = 0.85;  // Tasa de cambio fija para USD a EUR (1 USD = 0.85 EUR)
-        tasaUSDToCOP = 3600;  // Tasa de cambio ficticia para USD a COP (1 USD = 3600 COP)
-        tasaUSDToCLP = 800;   // Tasa de cambio ficticia para USD a CLP (1 USD = 800 CLP)
-        tasaUSDToMXN = 20;    // Tasa de cambio ficticia para USD a MXN (1 USD = 20 MXN)
-        tasaUSDToBRL = 5;     // Tasa de cambio ficticia para USD a BRL (1 USD = 5 BRL)
-        tasaUSDToBOB = 7;     // Tasa de cambio ficticia para USD a BOB (1 USD = 7 BOB)
-        tasaUSDToVEF = 2800;  // Tasa de cambio ficticia para USD a VEF (1 USD = 2800 VEF)
+        while (continuar) {
+            String[] opciones = { "Conversión de Monedas", "Conversión de Temperatura", "Conversión de Kilometraje", "Salir" };
+            String opcionSeleccionada = (String) JOptionPane.showInputDialog(
+                    null,
+                    "Seleccione el tipo de conversión:",
+                    "Conversor Múltiple",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[0]
+            );
 
-        setTitle("Conversor de Monedas");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new FlowLayout());
-
-        labelResultado = new JLabel("Resultado: ");
-        campoCantidad = new JTextField(10);
-        botonConvertir = new JButton("Convertir");
-        comboMonedas = new JComboBox<>(new String[]{
-                "USD a EUR", "USD a COP", "USD a CLP", "USD a MXN",
-                "USD a BRL", "USD a BOB", "USD a VEF"
-        });
-
-        botonConvertir.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                convertirMoneda();
+            if (opcionSeleccionada != null) {
+                switch (opcionSeleccionada) {
+                    case "Conversión de Monedas":
+                        realizarConversionMonedas();
+                        break;
+                    case "Conversión de Temperatura":
+                        realizarConversionTemperatura();
+                        break;
+                    case "Conversión de Kilometraje":
+                        realizarConversionKilometraje();
+                        break;
+                    case "Salir":
+                        continuar = false;
+                        break;
+                }
             }
-        });
+        }
 
-        add(new JLabel("Cantidad: "));
-        add(campoCantidad);
-        add(comboMonedas);
-        add(botonConvertir);
-        add(labelResultado);
-
-        pack();
-        setLocationRelativeTo(null); // Centrar la ventana en la pantalla
+        JOptionPane.showMessageDialog(null, "Programa Terminado", "Terminado", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void convertirMoneda() {
-        String seleccion = (String) comboMonedas.getSelectedItem();
-        double cantidad = Double.parseDouble(campoCantidad.getText());
-        double resultado;
+    public static void realizarConversionMonedas() {
+        double tasaUSDtoEUR = 0.85;
+        double tasaUSDtoCOP = 3600;
+        double tasaUSDtoJPY = 110.0;
 
-        DecimalFormat df = new DecimalFormat("#,##0.00");
+        String[] opciones = { "USD a EUR", "USD a COP", "USD a JPY" };
+        String opcionSeleccionada = (String) JOptionPane.showInputDialog(
+                null,
+                "Seleccione la conversión:",
+                "Conversor de Monedas",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                opciones,
+                opciones[0]
+        );
 
-        if (seleccion.equals("USD a EUR")) {
-            resultado = cantidad * tasaUSDToEUR;
-            labelResultado.setText("Resultado: " + df.format(cantidad) + " USD equivalen a " + df.format(resultado) + " EUR.");
-        } else if (seleccion.equals("USD a COP")) {
-            resultado = cantidad * tasaUSDToCOP;
-            labelResultado.setText("Resultado: " + df.format(cantidad) + " USD equivalen a " + df.format(resultado) + " COP.");
-        } else if (seleccion.equals("USD a CLP")) {
-            resultado = cantidad * tasaUSDToCLP;
-            labelResultado.setText("Resultado: " + df.format(cantidad) + " USD equivalen a " + df.format(resultado) + " CLP.");
-        } else if (seleccion.equals("USD a MXN")) {
-            resultado = cantidad * tasaUSDToMXN;
-            labelResultado.setText("Resultado: " + df.format(cantidad) + " USD equivalen a " + df.format(resultado) + " MXN.");
-        } else if (seleccion.equals("USD a BRL")) {
-            resultado = cantidad * tasaUSDToBRL;
-            labelResultado.setText("Resultado: " + df.format(cantidad) + " USD equivalen a " + df.format(resultado) + " BRL.");
-        } else if (seleccion.equals("USD a BOB")) {
-            resultado = cantidad * tasaUSDToBOB;
-            labelResultado.setText("Resultado: " + df.format(cantidad) + " USD equivalen a " + df.format(resultado) + " BOB.");
-        } else if (seleccion.equals("USD a VEF")) {
-            resultado = cantidad * tasaUSDToVEF;
-            labelResultado.setText("Resultado: " + df.format(cantidad) + " USD equivalen a " + df.format(resultado) + " VEF.");
+        if (opcionSeleccionada != null) {
+            String cantidadStr = JOptionPane.showInputDialog(null, "Ingrese la cantidad en USD:");
+            if (cantidadStr != null && !cantidadStr.isEmpty()) {
+                try {
+                    double cantidadUSD = Double.parseDouble(cantidadStr);
+                    double resultado = 0.0;
+                    String monedaDestino = "";
+
+                    if (opcionSeleccionada.equals("USD a EUR")) {
+                        resultado = cantidadUSD * tasaUSDtoEUR;
+                        monedaDestino = "EUR";
+                    } else if (opcionSeleccionada.equals("USD a COP")) {
+                        resultado = cantidadUSD * tasaUSDtoCOP;
+                        monedaDestino = "COP";
+                    } else if (opcionSeleccionada.equals("USD a JPY")) {
+                        resultado = cantidadUSD * tasaUSDtoJPY;
+                        monedaDestino = "JPY";
+                    }
+
+                    String mensaje = String.format("%.2f USD equivalen a %.2f %s.", cantidadUSD, resultado, monedaDestino);
+                    JOptionPane.showMessageDialog(null, mensaje, "Resultado de Conversión", JOptionPane.INFORMATION_MESSAGE);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Ingrese una cantidad válida en USD.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese una cantidad en USD.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ConversorDeMonedasSwing conversor = new ConversorDeMonedasSwing();
-                conversor.setVisible(true);
+    public static void realizarConversionTemperatura() {
+        String[] opciones = { "Celsius a Fahrenheit", "Fahrenheit a Celsius" };
+        String opcionSeleccionada = (String) JOptionPane.showInputDialog(
+                null,
+                "Seleccione la conversión:",
+                "Conversor de Temperatura",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                opciones,
+                opciones[0]
+        );
+
+        if (opcionSeleccionada != null) {
+            String cantidadStr = JOptionPane.showInputDialog(null, "Ingrese la temperatura:");
+            if (cantidadStr != null && !cantidadStr.isEmpty()) {
+                try {
+                    double temperatura = Double.parseDouble(cantidadStr);
+                    double resultado = 0.0;
+
+                    if (opcionSeleccionada.equals("Celsius a Fahrenheit")) {
+                        resultado = celsiusToFahrenheit(temperatura);
+                        JOptionPane.showMessageDialog(null, temperatura + " °C equivalen a " + resultado + " °F.", "Resultado de Conversión", JOptionPane.INFORMATION_MESSAGE);
+                    } else if (opcionSeleccionada.equals("Fahrenheit a Celsius")) {
+                        resultado = fahrenheitToCelsius(temperatura);
+                        JOptionPane.showMessageDialog(null, temperatura + " °F equivalen a " + resultado + " °C.", "Resultado de Conversión", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Ingrese una temperatura válida.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese una temperatura.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        });
+        }
+    }
+
+    public static void realizarConversionKilometraje() {
+        double kmPorMillas = 1.60934;
+
+        String cantidadStr = JOptionPane.showInputDialog(null, "Ingrese la distancia en millas:");
+        if (cantidadStr != null && !cantidadStr.isEmpty()) {
+            try {
+                double millas = Double.parseDouble(cantidadStr);
+                double kilometros = millas * kmPorMillas;
+                JOptionPane.showMessageDialog(null, millas + " millas equivalen a " + kilometros + " kilómetros.", "Resultado de Conversión", JOptionPane.INFORMATION_MESSAGE);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Ingrese una distancia válida en millas.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese una distancia en millas.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public static double celsiusToFahrenheit(double celsius) {
+        return (celsius * 9 / 5) + 32;
+    }
+
+    public static double fahrenheitToCelsius(double fahrenheit) {
+        return (fahrenheit - 32) * 5 / 9;
     }
 }
